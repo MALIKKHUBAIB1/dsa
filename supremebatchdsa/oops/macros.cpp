@@ -32,6 +32,12 @@ void fun2(int x, int y)
   int y = 7;
   int c = MAXX(x, y);
 }
+void fun3(int x, int y)
+{
+  int x = 80;
+  int y = 78;
+  int c = MAXX(x, y);
+}
 int main()
 {
   float x = areaOfCircle(3);
