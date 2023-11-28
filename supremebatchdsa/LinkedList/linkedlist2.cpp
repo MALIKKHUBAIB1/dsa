@@ -17,6 +17,11 @@ public:
     this->data = data;
     this->next = NULL;
   }
+  // jab bhi hum dynamically kisi var ko delete karte hai then destructor automatically called ho jata hai
+  ~Node()
+  {
+    cout << "dtor is called : " << this->data << endl;
+  }
 };
 // print lenght of nodes in linked list
 int findLength(Node *head)
@@ -132,6 +137,65 @@ void insertAtany_position(Node *&head, Node *&tail, int pos, int data)
     newNode->next = curr;
   }
 }
+
+void deleteNode(Node *&head, Node *&tail, int pos)
+{
+  // if linked list is empty
+  if (head == NULL)
+  {
+    cout << "can not delete node linked list is empty" << endl;
+    return;
+  }
+  // delete from head
+  if (pos == 1)
+  {
+    Node *temp = head;
+    head = temp->next;
+    temp->next = NULL;
+    delete temp;
+  }
+  // delete from tail
+  int len = findLength(head);
+  // Node *temp = head;
+  // Node *curr = temp->next;
+  Node *prev = head;
+  if (pos == len)
+  {
+    // while (temp->next != NULL)
+    // {
+    //   prev = curr;
+    //   temp = temp->next;
+    //   curr = temp;
+    // }
+
+    // prev->next = NULL;
+    // another way of looping to get previous
+    while (prev->next != tail)
+    {
+      prev = prev->next;
+    }
+    prev->next = NULL;
+    delete tail;
+    tail = prev;
+  }
+  else
+  {
+    // delte at the middele of linked list
+    Node *prev = head;
+    Node *curr = head;
+    int index = 1;
+    while (index != pos)
+    {
+      prev = curr;
+      curr = curr->next;
+      index++;
+    }
+    prev->next = curr->next;
+    curr->next = NULL;
+    delete curr;
+    // curr = curr->next;
+  }
+}
 int main()
 {
   // Node n; // static allocation
@@ -160,12 +224,15 @@ int main()
   insertAtTail(head, tail, 20);
   insertAtTail(head, tail, 10);
   insertAtTail(head, tail, 50);
+  // print(head);
+  // cout << endl;
+  // print(head);
+  int len = findLength(head);
+  cout << len << endl;
+  insertAtany_position(head, tail, 2, 41);
   print(head);
   cout << endl;
-  // print(head);
-  // int len = findLength(head);
-  // // cout << len << endl;
-  insertAtany_position(head, tail, 2, 41);
+  deleteNode(head, tail, 4);
   // cout << endl;
   print(head);
   return 0;
